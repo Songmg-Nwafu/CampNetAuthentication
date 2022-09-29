@@ -55,14 +55,14 @@ class WifiChoice(object):
 
     def getStatus(self):
         iface = PyWiFi().interfaces()[0]
-        i = 5
-        while i > 0:
+        retry = 5
+        while retry > 0:
             if iface.status() == const.IFACE_CONNECTED:
                 return 1
             elif iface.status() == const.IFACE_DISCONNECTED:
                 return 0
             elif iface.status() == const.IFACE_SCANNING or iface.status() == const.IFACE_CONNECTING:
-                i -= 1
+                retry -= 1
                 time.sleep(2)
             elif iface.status() == const.IFACE_INACTIVE:
                 return -1

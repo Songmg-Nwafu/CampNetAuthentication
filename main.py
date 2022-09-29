@@ -7,13 +7,18 @@ password = ''
 
 def NWAFU():
     a = CampNet.IfLogin(username, password)
-    if a.getStatus():
-        msg = a.doLogin()
-        if msg[1]:
-            print('Successful!')
-        else:
-            print('Failed!')
-        print(msg[0])
+    retry = 3
+    while retry > 0:
+        try:
+            if a.getStatus():
+                msg = a.doLogin()
+                if msg[1]:
+                    print('Successful!')
+                else:
+                    print('Failed!')
+                print(msg[0])
+        except:
+            retry -=1
 
 def main_work():
     wifi = WifiChoice()
