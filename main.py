@@ -1,6 +1,6 @@
 import time
 import CampNet
-import WifiChoice
+from WifiChoice import WifiChoice
 
 username = '' #学号
 password = ''
@@ -23,6 +23,7 @@ def main_work():
         return -1
     if choice == 1:
         print(wifi.connect(msg))
+        time.sleep(2)
         if 'NWAFU' in msg:
             NWAFU()
         return 0

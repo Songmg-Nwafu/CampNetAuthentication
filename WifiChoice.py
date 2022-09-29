@@ -42,6 +42,16 @@ class WifiChoice(object):
         iface = PyWiFi().interfaces()[0]
         iface.scan()
         time.sleep(3)
+        cmd = "netsh wlan show network"
+        result = os.popen(cmd)
+        text = result.read()
+        result.close()
+        wifi_list = re.findall(r"SSID [\d] : (.*?)\n", text, re.MULTILINE|re.DOTALL)
+        temp = []
+        for i in wifi_list:
+            if i:
+                temp.append(i.encode('utf-8').decode('ansi'))
+        return temp
 
     def getStatus(self):
         iface = PyWiFi().interfaces()[0]
@@ -63,7 +73,7 @@ class WifiChoice(object):
         result = os.popen(cmd)
         text = result.read()
         result.close()
-        text = text.strip('\n').encode('utf-8').decode('ansi')
+        text = text.strip('\n')
         return text
 
     def makeChoice(self):

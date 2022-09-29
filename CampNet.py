@@ -125,6 +125,10 @@ class SRUN_Login(object):
 class IfLogin(object):
 
 	get_status_url = "http://172.26.8.11/cgi-bin/rad_user_info"
+	headers = {
+			"Host": "172.26.8.11",
+			"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36"
+	}
 
 	def __init__(self, username, password):
 		self.username = username
@@ -137,8 +141,8 @@ class IfLogin(object):
 		}
 		response = requests.get(self.get_status_url, headers=self.headers, params=params).text
 		response = re.search(r'"error":"(.*?)"', response).group()   #认证前: "error":"not_online_error"
-		response = json.loads(response)
-		if response['error'] == "ok":
+		response = response[9:-1]
+		if response == "ok":
 			return 0
 		return 1
 
