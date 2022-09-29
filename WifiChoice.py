@@ -12,7 +12,7 @@ import re
 
 class WifiChoice(object):
     def __init__(self) -> None:
-        pass
+        self.iface = PyWiFi().interfaces()[0]
 
     def getCurrentSSID(self):
         cmd = 'netsh wlan show interfaces'
@@ -39,8 +39,7 @@ class WifiChoice(object):
         return ssid
 
     def getAvailableWifi(self):
-        iface = PyWiFi().interfaces()[0]
-        iface.scan()
+        self.iface.scan()
         time.sleep(3)
         cmd = "netsh wlan show network"
         result = os.popen(cmd)
@@ -54,17 +53,16 @@ class WifiChoice(object):
         return temp
 
     def getStatus(self):
-        iface = PyWiFi().interfaces()[0]
         retry = 5
         while retry > 0:
-            if iface.status() == const.IFACE_CONNECTED:
+            if self.iface.status() == const.IFACE_CONNECTED:
                 return 1
-            elif iface.status() == const.IFACE_DISCONNECTED:
+            elif self.iface.status() == const.IFACE_DISCONNECTED:
                 return 0
-            elif iface.status() == const.IFACE_SCANNING or iface.status() == const.IFACE_CONNECTING:
+            elif self.iface.status() == const.IFACE_SCANNING or self.iface.status() == const.IFACE_CONNECTING:
                 retry -= 1
                 time.sleep(2)
-            elif iface.status() == const.IFACE_INACTIVE:
+            elif self.iface.status() == const.IFACE_INACTIVE:
                 return -1
         return -1
 
