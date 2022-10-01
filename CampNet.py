@@ -27,10 +27,10 @@ class SRUN_Login(object):
 		self.ip = self.getIP()
 		self.token = self.getToken()
 		self.hmd5 = self.md5(password, self.token)
-		self.info = {
+		self.userInfo = {
 			'username': username,
 			'password': password,
-			'self.ip': self.ip,
+			'ip': self.ip,
 			'acid': '1',
 			'enc_ver': 'srun_bx1'
 		}
@@ -103,12 +103,13 @@ class SRUN_Login(object):
 			'chksum': self.EncodedChksum,   #utf-8 gbk ... feel free to choose!
 			'info': self.i,
 			'ac_id': self.ac_id,
-			'self.ip': self.ip,
+			'ip': self.ip,
 			'n': self.n,
 			'type': self.type,
 			'_': self.getTimeStamp()
 		}
 		response = requests.get(self.login_url, headers=self.headers ,params=params).text
+		print(response)
 		response = re.search(r"[{](.*?)[}]", response).group()
 		response = json.loads(response)
 		if response['error'] == 'ok':

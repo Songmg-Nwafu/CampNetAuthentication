@@ -1,3 +1,4 @@
+from subprocess import Popen, check_output, PIPE
 from pywifi import PyWiFi
 from pywifi import const
 import time
@@ -17,8 +18,12 @@ class WifiChoice(object):
     def getCurrentSSID(self):
         cmd = 'netsh wlan show interfaces'
         result = os.popen(cmd)
-        text = result.read().split('\n')
+        text = result.read()
         result.close()
+        text = text.split('\n')
+        # result = os.popen(cmd)
+        # text = result.read().split('\n')
+        # result.close()
         for i in text:
             if 'SSID' in i :
                 ret = i.strip('\r').replace(' ','')
@@ -41,16 +46,24 @@ class WifiChoice(object):
     def getAvailableWifi(self):
         self.iface.scan()
         time.sleep(3)
-        cmd = "netsh wlan show network"
-        result = os.popen(cmd)
-        text = result.read()
-        result.close()
-        wifi_list = re.findall(r"SSID [\d] : (.*?)\n", text, re.MULTILINE|re.DOTALL)
-        temp = []
-        for i in wifi_list:
-            if i:
-                temp.append(i.encode('utf-8').decode('ansi'))
-        return temp
+        wifi_set = set()
+        for w in self.iface.scan_results():
+            ssid_and_signal = w.ssid.encode('raw_unicode_escape').decode('utf-8')
+            wifi_set.add(ssid_and_signal)
+        wifi_list = list(wifi_set)
+        return wifi_list
+        # cmd = "netsh wlan show network"
+        # text = self.run_silently(cmd)
+        # print(text)
+        # result = os.popen(cmd)
+        # text = result.read()
+        # result.close()
+        # wifi_list = re.findall(r"SSID [\d] : (.*?)\n", text, re.MULTILINE|re.DOTALL)
+        # temp = []
+        # for i in wifi_list:
+        #     if i:
+        #         temp.append(i.encode('utf-8').decode('ansi'))
+        # return temp
 
     def getStatus(self):
         retry = 5
