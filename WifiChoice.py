@@ -52,18 +52,6 @@ class WifiChoice(object):
             wifi_set.add(ssid_and_signal)
         wifi_list = list(wifi_set)
         return wifi_list
-        # cmd = "netsh wlan show network"
-        # text = self.run_silently(cmd)
-        # print(text)
-        # result = os.popen(cmd)
-        # text = result.read()
-        # result.close()
-        # wifi_list = re.findall(r"SSID [\d] : (.*?)\n", text, re.MULTILINE|re.DOTALL)
-        # temp = []
-        # for i in wifi_list:
-        #     if i:
-        #         temp.append(i.encode('utf-8').decode('ansi'))
-        # return temp
 
     def getStatus(self):
         retry = 5
