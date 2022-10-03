@@ -1,4 +1,4 @@
-# NWAFU-clock-in
+# CampNetAuthentication
 NWAFU校园网自动登录/认证
 
 有校园网以外的已保存的网络则优先登录除校园网以外的网络
