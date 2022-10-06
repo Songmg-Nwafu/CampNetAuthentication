@@ -1,5 +1,3 @@
-from configparser import ConfigParser
-from logging import exception, raiseExceptions
 import time
 import json
 import CampNet
@@ -23,7 +21,8 @@ def NWAFU():
             print('Failed!')
         print(msg[0])
         return 0
-    except:
+    except Exception:
+        print(Exception)
         return 1
 
 def main_work(wifi, autoConnect):
@@ -46,7 +45,7 @@ def main_work(wifi, autoConnect):
         return 0
 
 if __name__ == '__main__':
-    f = open("config.ini", 'r')
+    f = open('config.json', 'r')
     config = json.load(f)
     f.close()
     if config['username'] == '' or config['password'] == '':

@@ -75,7 +75,6 @@ class SRUN_Login(object):
 		response = requests.get(self.get_token_url, headers=self.headers ,params=params).text
 		response = re.search(r"[{](.*?)[}]", response).group()
 		response = json.loads(response)
-		print(response)
 		return response['challenge']
 
 	def getUserInfoEncode(self):
